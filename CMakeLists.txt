@@ -44,7 +44,11 @@ if(XXSDS_DYN_MULTI_THREADED)
 endif(XXSDS_DYN_MULTI_THREADED)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -ggdb")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -ggdb -Ofast -fstrict-aliasing -DNDEBUG -march=native")
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -ggdb -Ofast -fstrict-aliasing -DNDEBUG")
+else()
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -ggdb -Ofast -fstrict-aliasing -DNDEBUG -march=native")
+endif()
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -g -ggdb -Ofast -fstrict-aliasing -march=native")
 
 add_executable(debug debug.cpp)
